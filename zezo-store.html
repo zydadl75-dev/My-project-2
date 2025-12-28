@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الهواتف الذكية - زيزو ستور</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --whatsapp: #25d366;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            direction: rtl;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: var(--dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: bold; }
+
+        .cart-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cart-btn:hover { background: var(--primary); }
+
+        header { text-align: center; padding: 40px 20px; }
+
+        .filters button {
+            padding: 8px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .filters button:hover { background: var(--primary); color: white; }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 5%;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* السلة */
+        .cart-sidebar {
+            position: fixed;
+            left: -400px;
+            top: 0;
+            width: 350px;
+            height: 100%;
+            background: white;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            transition: 0.4s;
+            padding: 20px;
+            z-index: 2000;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.active { left: 0; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .total-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .whatsapp-btn {
+            background: var(--whatsapp);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .close-btn { 
+            width: 100%; 
+            margin-top: 10px; 
+            border: none; 
+            padding: 10px; 
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">📱 زيزو ستور</div>
+        <button class="cart-btn" onclick="toggleCart()">
+            السلة (<span id="cart-count">0</span>)
+        </button>
+    </nav>
+
+    <header>
+        <h1>أحدث الهواتف الذكية</h1>
+        <div class="filters">
+            <button onclick="filterProducts('all')">الكل</button>
+            <button onclick="filterProducts('iphone')">iPhone</button>
+            <button onclick="filterProducts('samsung')">Samsung</button>
+            <button onclick="filterProducts('huawei')">Huawei</button>
+        </div>
+    </header>
+
+    <main id="products-container" class="products-grid">
+        </main>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <h2>🛒 سلة المشتريات</h2>
+        <div id="cart-items"></div>
+        <div class="total-box">
+            المجموع: <span id="total-price">0</span> 
+            ريال
+        </div>
+        <button onclick="sendToWhatsApp()" class="whatsapp-btn">إتمام الطلب عبر واتساب 💬</button>
+        <button onclick="toggleCart()" class="close-btn">إغلاق</button>
+    </div>
+
+    <script>
+        // الصق كود script.js هنا
+    </script>
+</body>
+</html>

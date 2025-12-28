@@ -202,7 +202,149 @@
     </div>
 
     <script>
-        // الصق كود script.js هنا
+        // 1. قاعدة بيانات المنتجات (4 أنواع) مع رابط مباشر لـ iPhone 14
+const products = [
+    { 
+        id: 1, 
+        name: "iPhone 15 Pro Max", 
+        brand: "iphone", 
+        price: 4500, 
+        img: "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-max-1.jpg" 
+    },
+    { 
+        id: 2, 
+        name: "Samsung Galaxy S24 Ultra", 
+        brand: "samsung", 
+        price: 4200, 
+        img: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-ultra-5g-sm-s928-0.jpg" 
+    },
+    { 
+        id: 3, 
+        name: "Huawei P60 Pro", 
+        brand: "huawei", 
+        price: 3800, 
+        img: "https://fdn2.gsmarena.com/vv/pics/huawei/huawei-p60-pro-2.jpg" 
+    },
+    { 
+        id: 4, 
+        name: "iPhone 14", 
+        brand: "iphone", 
+        price: 3200, 
+        img: "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-1.jpg" 
+    }
+];
+
+// مصفوفة السلة
+let cart = [];
+
+/**
+ * دالة عرض المنتجات
+ */
+function displayProducts(items) {
+    const container = document.getElementById('products-container');
+    if (!container) return;
+
+    container.innerHTML = items.map(p => `
+        <div class="card">
+            <img src="${p.img}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p class="price">${p.price} ريال</p>
+            <button class="btn-add" onclick="addToCart(${p.id})">إضافة للسلة</button>
+        </div>
+    `).join('');
+}
+
+/**
+ * إضافة منتج للسلة
+ */
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (product) {
+        cart.push(product);
+        updateCartUI();
+        alert(`تمت إضافة ${product.name} بنجاح!`);
+    }
+}
+
+/**
+ * حذف منتج من السلة
+ */
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+/**
+ * تحديث واجهة السلة
+ */
+function updateCartUI() {
+    // تحديث العداد
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) cartCount.innerText = cart.length;
+
+    // تحديث القائمة
+    const cartItemsDiv = document.getElementById('cart-items');
+    if (cartItemsDiv) {
+        cartItemsDiv.innerHTML = cart.map((item, index) => `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <span>${item.price} ريال</span>
+                </div>
+                <button class="btn-delete" onclick="removeFromCart(${index})">حذف</button>
+            </div>
+        `).join('');
+    }
+
+    // تحديث الإجمالي
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    const totalPriceEl = document.getElementById('total-price');
+    if (totalPriceEl) totalPriceEl.innerText = total;
+}
+
+/**
+ * تصفية حسب الماركة
+ */
+function filterProducts(brand) {
+    if (brand === 'all') {
+        displayProducts(products);
+    } else {
+        const filtered = products.filter(p => p.brand === brand);
+        displayProducts(filtered);
+    }
+}
+
+/**
+ * فتح وإغلاق السلة
+ */
+function toggleCart() {
+    const sidebar = document.getElementById('cart-sidebar');
+    if (sidebar) sidebar.classList.toggle('active');
+}
+
+/**
+ * إرسال الطلب للواتساب
+ */
+function sendToWhatsApp() {
+    if (cart.length === 0) return alert("السلة فارغة!");
+
+    const myNumber = "249902103267"; // ضع رقمك هنا
+    let message = "📦 طلبية جديدة:\n\n";
+    
+    cart.forEach((item, i) => {
+        message += `${i + 1}. ${item.name} (${item.price} ريال)\n`;
+    });
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    message += `\n💰 الإجمالي: ${total} ريال`;
+
+    window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// التشغيل عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    displayProducts(products);
+});
     </script>
 </body>
 </html>
